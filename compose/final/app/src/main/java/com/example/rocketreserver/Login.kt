@@ -85,7 +85,7 @@ fun Login(navigateBack: () -> Unit) {
 
 private suspend fun login(email: String): Boolean {
     val response = try {
-        apolloClient.mutation(LoginMutation(email = email)).execute()
+        ApolloClientFactory.apolloClient.mutation(LoginMutation(email = email)).execute()
     } catch (e: ApolloException) {
         Log.w("Login", "Failed to login", e)
         return false

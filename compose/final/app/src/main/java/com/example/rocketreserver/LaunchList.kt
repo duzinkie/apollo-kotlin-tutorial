@@ -34,7 +34,7 @@ fun LaunchList(onLaunchClick: (launchId: String) -> Unit) {
     var response: ApolloResponse<LaunchListQuery.Data>? by remember { mutableStateOf(null) }
     var launchList by remember { mutableStateOf(emptyList<LaunchListQuery.Launch>()) }
     LaunchedEffect(cursor) {
-        response = apolloClient.query(LaunchListQuery(Optional.present(cursor))).execute()
+        response = ApolloClientFactory.apolloClient.query(LaunchListQuery(Optional.present(cursor))).execute()
         launchList = launchList + response?.data?.launches?.launches?.filterNotNull().orEmpty()
     }
 

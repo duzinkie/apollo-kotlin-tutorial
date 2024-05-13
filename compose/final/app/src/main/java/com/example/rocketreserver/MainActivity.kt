@@ -31,11 +31,18 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         TokenRepository.init(this)
+        val cronetEngineFactory = CronetEngineFactory(context = this)
+        ApolloClientFactory.cronetEngine = cronetEngineFactory.cronetEngine
         setContent {
             RocketReserverTheme {
                 val snackbarHostState = remember { SnackbarHostState() }
-                val tripBookedFlow = remember { apolloClient.subscription(TripsBookedSubscription()).toFlow() }
-                val tripBookedResponse: ApolloResponse<TripsBookedSubscription.Data>? by tripBookedFlow.collectAsState(initial = null)
+                val tripBookedFlow = remember {
+                    ApolloClientFactory.apolloClient.subscription(TripsBookedSubscription())
+                        .toFlow()
+                }
+                val tripBookedResponse: ApolloResponse<TripsBookedSubscription.Data>? by tripBookedFlow.collectAsState(
+                    initial = null
+                )
                 LaunchedEffect(tripBookedResponse) {
                     if (tripBookedResponse == null) return@LaunchedEffect
                     val message = when (tripBookedResponse!!.data?.tripsBooked) {

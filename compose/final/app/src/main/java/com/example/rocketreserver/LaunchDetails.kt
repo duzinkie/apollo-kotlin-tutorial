@@ -47,7 +47,7 @@ fun LaunchDetails(launchId: String, navigateToLogin: () -> Unit) {
     var state by remember { mutableStateOf<LaunchDetailsState>(Loading) }
     LaunchedEffect(Unit) {
         state = try {
-            val response = apolloClient.query(LaunchDetailsQuery(launchId)).execute()
+            val response = ApolloClientFactory.apolloClient.query(LaunchDetailsQuery(launchId)).execute()
             if (response.hasErrors()) {
                 ApplicationError(response.errors!!)
             } else {
@@ -153,7 +153,7 @@ private suspend fun onBookButtonClick(launchId: String, isBooked: Boolean, navig
         BookTripMutation(id = launchId)
     }
     val response = try {
-        apolloClient.mutation(mutation).execute()
+        ApolloClientFactory.apolloClient.mutation(mutation).execute()
     } catch (e: ApolloException) {
         Log.w("LaunchDetails", "Failed to book/cancel trip", e)
         return false

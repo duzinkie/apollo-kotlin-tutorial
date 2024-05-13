@@ -67,6 +67,10 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("com.google.net.cronet:cronet-okhttp:0.1.0")
+    implementation("org.chromium.net:cronet-embedded:119.6045.31")
 }
 
 apollo {
